@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { GeneratorPageComponent } from './pages/generator-page/generator-page.component';
-import { PaymentsPageComponent } from './pages/payments-page/payments-page.component';
+import { RouterModule, Routes } from '@angular/router';
 import { Error404PageComponent } from './pages/error404-page/error404-page.component';
 
 
 const routes: Routes = [
-  { path: 'generator', component: GeneratorPageComponent, pathMatch: 'full' },
-  { path: 'payments', component: PaymentsPageComponent, pathMatch: 'full' },
+  {
+    path: 'generator',
+    loadChildren: () => import('./modules/generator/generator.module').then(m => m.GeneratorModule)
+  },
+  {
+    path: 'payments',
+    loadChildren: () => import('./modules/payments/payments.module').then(m => m.PaymentsModule)
+  },
+  { path: '', redirectTo: 'generator', pathMatch: 'full' },
   { path: '404', component: Error404PageComponent },
 
   // otherwise redirect to 404
@@ -15,7 +20,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
