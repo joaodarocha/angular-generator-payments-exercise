@@ -1,0 +1,17 @@
+<div class="header" fxLayout="row" fxLayoutAlign="center center">
+  <div class="character-input" fxFlex>
+    <mat-form-field appearance="outline">
+      <mat-label>Insert one character</mat-label>
+      <input matInput>
+    </mat-form-field>
+  </div>
+
+
+  <div class="clock" fxFlex>
+    <mat-icon>access_time</mat-icon>
+  </div>
+
+
+  <button class="generate-button" color="primary" fxFlex mat-raised-button
+  (click)="generatorClicked.emit()">Generate 2D Grid</button>
+</div>

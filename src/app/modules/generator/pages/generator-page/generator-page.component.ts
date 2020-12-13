@@ -8,11 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeneratorPageComponent implements OnInit {
 
-  gridCharacters: string[10][10];
+  row: string[] = Array(10).fill('a').map( (value, index) => index.toString());
+  grid: string[][] = Array(10).fill(this.row);
+  private inputCharacter: string;
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  onNewCharacter(character: string) {
+    this.inputCharacter =  character;
+  }
+
+  onGeneratorClick() {
+    // Generate grid
+  }
 }

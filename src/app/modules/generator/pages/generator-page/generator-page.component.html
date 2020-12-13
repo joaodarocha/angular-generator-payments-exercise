@@ -1,17 +1,24 @@
 <div class="generator-page" fxLayout="column" fxLayoutAlign="center space-around">
-  <div class="header" fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
-    <div class="character-input" fxFlex>Input here</div>
-    <div class="clock" fxFlex>
-      <mat-icon>access_time</mat-icon>
-    </div>
-    <button class="generate-button" fxFlex mat-raised-button>Generate 2D Grid</button>
-  </div>
+  <app-generator-header
+    (generatorClicked)="onGeneratorClick()"
+    (newCharacter)="onNewCharacter($event)"
+    class="header"
+  ></app-generator-header>
+
 
   <div class="grid" fxFlex>
     Grid here:
     <mat-grid-list cols="10" rowHeight="25px">
-      <mat-grid-tile></mat-grid-tile>
+      <ng-container *ngFor="let row of grid">
+        <mat-grid-tile *ngFor="let character of row">
+          {{ character }}
+        </mat-grid-tile>
+      </ng-container>
     </mat-grid-list>
   </div>
-  <div class="live-code" fxFlex> Live Code</div>
+
+
+  <app-live-code class="live-code" fxFlex></app-live-code>
+
+
 </div>
