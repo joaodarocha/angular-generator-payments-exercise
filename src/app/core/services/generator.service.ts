@@ -9,15 +9,13 @@ export class GeneratorService {
   private readonly LETTER_A_ASCII_CODE: number = 97;
   private readonly LETTER_Z_ASCII_CODE: number = 122;
   private grid: string[][];
+  private _grid$: ReplaySubject<string[][]> = new ReplaySubject<string[][]>();
 
   private numberOfPriorityCharacters = 20;
-  private priorityCharacter: string;
 
   constructor() {
     this._grid$.next(this.getStartingGrid()); // start the grid
   }
-
-  private _grid$: ReplaySubject<string[][]> = new ReplaySubject<string[][]>();
 
   get grid$(): Observable<string[][]> {
     return this._grid$.asObservable();

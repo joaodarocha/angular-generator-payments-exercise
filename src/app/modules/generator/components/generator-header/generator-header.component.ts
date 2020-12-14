@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { TimeService } from '../../../../core/services/time.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-generator-header',
@@ -11,11 +13,16 @@ export class GeneratorHeaderComponent implements OnInit {
   @Output() newCharacter: EventEmitter<string> = new EventEmitter<string>();
   @Output() generatorClicked: EventEmitter<void> = new EventEmitter<void>();
 
+  time$: Observable<string> = new Observable<string>();
+
   characters = new FormControl({value: '', disabled: false} , Validators.pattern('[a-z]'));
 
-  constructor() { }
+  constructor(
+    private timeService: TimeService
+  ) { }
 
   ngOnInit(): void {
+    this.time$ = this.timeService.getTime();
   }
 
   onInputChange(value: string) {
