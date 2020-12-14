@@ -1,2 +1,9 @@
-<p>live-code works!</p>
-<p>Time: {{ time$ | async}}</p>
+<div class="container" fxLayout="column" fxLayoutAlign="center center">
+  <div class="first-row" fxFlex>
+    <mat-icon class="circle">circle</mat-icon>
+    LIVE
+  </div>
+  <div class="second-row">
+    YOUR CODE: <span class="code">{{ code }}</span>
+  </div>
+</div>

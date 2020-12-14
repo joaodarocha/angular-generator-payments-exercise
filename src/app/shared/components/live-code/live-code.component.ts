@@ -9,6 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class LiveCodeComponent implements OnInit, OnDestroy{
   time$: Observable<string> = new Observable<string>();
+  code: number;
 
   private subscriptions: Subscription = new Subscription();
 
@@ -18,6 +19,7 @@ export class LiveCodeComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    this.code = 11;
     this.time$ = this.timeService.getTime();
   }
 
