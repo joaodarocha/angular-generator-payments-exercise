@@ -8,7 +8,7 @@
              [formControl]="characters"
              matInput>
       <mat-error *ngIf="characters.invalid">Must be only 1 character from a-z</mat-error>
-      <mat-hint *ngIf="characters.disabled">{{disabledMessage}}</mat-hint>
+      <mat-hint *ngIf="characters.disabled">Disabled</mat-hint>
     </mat-form-field>
   </div>
 

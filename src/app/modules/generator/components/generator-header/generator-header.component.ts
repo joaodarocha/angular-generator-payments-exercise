@@ -12,7 +12,6 @@ export class GeneratorHeaderComponent implements OnInit {
   @Output() generatorClicked: EventEmitter<void> = new EventEmitter<void>();
 
   characters = new FormControl({value: '', disabled: false} , Validators.pattern('[a-z]'));
-  disabledMessage = 'Enabling in 4 seconds';
 
   constructor() { }
 
