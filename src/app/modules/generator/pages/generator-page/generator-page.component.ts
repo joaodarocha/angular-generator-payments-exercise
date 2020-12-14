@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { GeneratorService } from '../../../../core/services/generator.service';
+import { Subscription } from "rxjs";
 
 
 @Component({
@@ -6,22 +8,35 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './generator-page.component.html',
   styleUrls: ['./generator-page.component.scss']
 })
-export class GeneratorPageComponent implements OnInit {
+export class GeneratorPageComponent implements OnInit, OnDestroy {
 
-  row: string[] = Array(10).fill('a').map( (value, index) => index.toString());
-  grid: string[][] = Array(10).fill(this.row);
+  grid: string[][];
   private inputCharacter: string;
 
-  constructor() { }
+  private subscriptions: Subscription = new Subscription();
+
+  constructor(
+    private generatorService: GeneratorService
+  ) {
+  }
 
   ngOnInit() {
+    this.subscriptions.add(
+      this.generatorService.grid$.subscribe(grid =>  {
+        this.grid = grid;
+      })
+    );
   }
 
   onNewCharacter(character: string) {
-    this.inputCharacter =  character;
+    this.inputCharacter = character;
   }
 
   onGeneratorClick() {
-    // Generate grid
+    this.generatorService.generate(this.inputCharacter);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }
