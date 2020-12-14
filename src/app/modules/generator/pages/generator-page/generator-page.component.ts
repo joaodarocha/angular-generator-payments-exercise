@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { GeneratorService } from '../../../../core/services/generator.service';
-import { Subscription } from "rxjs";
+import { Grid, GridService } from '../../../../core/services/grid.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -10,13 +10,13 @@ import { Subscription } from "rxjs";
 })
 export class GeneratorPageComponent implements OnInit, OnDestroy {
 
-  grid: string[][];
+  grid: Grid;
   private inputCharacter: string;
 
   private subscriptions: Subscription = new Subscription();
 
   constructor(
-    private generatorService: GeneratorService
+    private generatorService: GridService
   ) {
   }
 

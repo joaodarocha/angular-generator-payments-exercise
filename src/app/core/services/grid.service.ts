@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { NumbersService } from './numbers.service';
+import { TimeService } from './time.service';
+
+export type Grid = string[][];
 
 @Injectable({
   providedIn: 'root'
 })
-export class GeneratorService {
+export class GridService {
   private readonly LETTER_A_ASCII_CODE: number = 97;
   private readonly LETTER_Z_ASCII_CODE: number = 122;
-  private grid: string[][];
-  private _grid$: ReplaySubject<string[][]> = new ReplaySubject<string[][]>();
-
+  private grid: Grid;
   private numberOfPriorityCharacters = 20;
 
-  constructor() {
+  constructor(
+    private timeService: TimeService
+  ) {
     this._grid$.next(this.getStartingGrid()); // start the grid
   }
 
-  get grid$(): Observable<string[][]> {
-    return this._grid$.asObservable();
+  private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getStartingGrid());
+
+  get grid$(): BehaviorSubject<Grid> {
+    return this._grid$;
   }
 
   generate(inputChar?: string): void {
@@ -29,7 +34,22 @@ export class GeneratorService {
     this._grid$.next(this.grid);
   }
 
-  private getStartingGrid(): string[][] {
+  count(character: string): number {
+    let count = 0;
+    this.grid.forEach(row => {
+      count += this.countOcurrencesInArray(row, character);
+    });
+    return count;
+  }
+
+  countOcurrencesInArray(array: string[], character: string) {
+    return array.reduce((accum, char) => {
+        return ( char === character ? accum + 1 : accum );
+      }
+      , 0);
+  }
+
+  private getStartingGrid(): Grid {
     let row: string[];
     row = Array(10).fill('a');
     this.grid = Array(10).fill(row);
@@ -52,6 +72,5 @@ export class GeneratorService {
     }
     return this.getRandomCharacter();
   }
-
 
 }
