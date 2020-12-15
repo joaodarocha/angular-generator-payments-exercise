@@ -1,4 +1,21 @@
-<p>header works!</p>
-<h1>
-  João Rocha - Altar.io Challenge
-</h1>
+<div fxLayout="column" fxLayoutAlign="space-around center" style="height: 100%">
+  <h1 class="title">
+    João Rocha - Altar.io Challenge
+  </h1>
+
+  <mat-button-toggle-group name="page-menu">
+    <mat-button-toggle
+      class="generator-menu"
+      routerLink="generator"
+      routerLinkActive="mat-button-toggle-checked"
+      value="generator">Generator
+    </mat-button-toggle>
+    <mat-button-toggle
+      class="payments-menu"
+      routerLink="payments"
+      routerLinkActive="mat-button-toggle-checked"
+      value="payments">Payments
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
