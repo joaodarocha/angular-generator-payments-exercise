@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TimeService } from '../../../core/services/time.service';
-import { Observable, of, Subscription, zip } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { Grid, GridService } from '../../../core/services/grid.service';
-import { map, mergeMap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-live-code',
@@ -31,38 +31,53 @@ export class LiveCodeComponent implements OnInit, OnDestroy {
   }
 
   getCode(): Observable<string> {
-    return this.time$.pipe(
-      mergeMap(time => {
-        return zip(
-          of(time),
-          this.gridService.grid$
-        ).pipe(
-          map(([timeString, grid]: [string, Grid]) => {
-              return this.generateCode(timeString, grid);
-            }
-          )
-        );
+    const timeObservable = this.timeService.getTime().pipe(
+      filter(time => this.timeService.getSecondsFromDateString(time)[1] % 2 === 0)
+    );
+    const gridObservable = this.gridService.getGrid();
+
+    return combineLatest([timeObservable, gridObservable]
+    ).pipe(
+      map(([time, grid]: [string, Grid]) => {
+        return this.generateCode(time, grid);
       })
     );
   }
 
   generateCode(time: string, grid: Grid): string {
     const seconds: number[] = this.timeService.getSecondsFromDateString(time);
+
+    const characters: string[] = this.getCharactersFromGrid(seconds, grid);
+
+    return this.generateDigitsFromCharacters(characters);
+  }
+
+  private getCharactersFromGrid(seconds: number[], grid: Grid): string[] {
     const leftSecond = seconds[0];
     const rightSecond = seconds[1];
     const firstChar = grid[leftSecond][rightSecond];
     const secondChar = grid[rightSecond][leftSecond];
 
-    console.log(firstChar, secondChar);
-
-    const firstCharCount = this.gridService.count(firstChar);
-    const secondCharCount = this.gridService.count(secondChar);
-
-    console.log(firstCharCount, secondCharCount);
-
-
-    return firstCharCount + '' + secondCharCount;
+    return [firstChar, secondChar];
   }
 
+  private generateDigitsFromCharacters(characters: string[]) {
+    const firstDigit = this.getCharCount(characters[0]);
+    const secondDigit = this.getCharCount(characters[1]);
 
+    return firstDigit + '' + secondDigit;
+  }
+
+  private getCharCount(character: string) {
+    const count = this.gridService.count(character);
+
+    return this.normalizeDigits(count);
+  }
+
+  private normalizeDigits(count: number) {
+    const divisor = Math.ceil(( count / 9 ));
+
+    return Math.ceil(count / divisor);
+
+  }
 }

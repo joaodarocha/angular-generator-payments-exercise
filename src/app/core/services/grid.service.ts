@@ -22,7 +22,7 @@ export class GridService {
 
   private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getStartingGrid());
 
-  get grid$(): BehaviorSubject<Grid> {
+  getGrid(): BehaviorSubject<Grid> {
     return this._grid$;
   }
 

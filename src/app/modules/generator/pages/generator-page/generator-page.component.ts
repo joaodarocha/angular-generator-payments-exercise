@@ -22,7 +22,7 @@ export class GeneratorPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.add(
-      this.generatorService.grid$.subscribe(grid =>  {
+      this.generatorService.getGrid().subscribe(grid =>  {
         this.grid = grid;
       })
     );
