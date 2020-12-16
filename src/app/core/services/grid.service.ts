@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { NumbersService } from './numbers.service';
-import { TimeService } from './time.service';
+import { map } from 'rxjs/operators';
 
 export type Grid = string[][];
 
@@ -15,15 +15,13 @@ export class GridService {
   private numberOfPriorityCharacters = 20;
 
   constructor(
-    private timeService: TimeService
   ) {
-    this._grid$.next(this.getStartingGrid()); // start the grid
   }
 
-  private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getStartingGrid());
+  private _grid$: BehaviorSubject<Grid> = this.initGridStream();
 
-  getGrid(): BehaviorSubject<Grid> {
-    return this._grid$;
+  get grid$(): Observable<Grid> {
+    return this._grid$.asObservable();
   }
 
   generate(inputChar?: string): void {
@@ -47,6 +45,11 @@ export class GridService {
         return ( char === character ? accum + 1 : accum );
       }
       , 0);
+  }
+
+  private initGridStream(): BehaviorSubject<Grid> {
+    interval(2000).pipe(map(tick => this.generate())).subscribe();
+    return new BehaviorSubject<Grid>(this.getStartingGrid());
   }
 
   private getStartingGrid(): Grid {

@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { Error404PageComponent } from './pages/error404-page/error404-page.component';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     SharedModule,
+    CoreModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],

@@ -22,7 +22,7 @@ export class GeneratorHeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.time$ = this.timeService.getTime();
+    this.time$ = this.timeService.time$;
   }
 
   onInputChange(value: string) {
