@@ -8,16 +8,9 @@ export interface IPayment {
   name: string;
   amount: number;
   code: string;
+  grid: Grid;
   gridLength: number;
 }
-
-export const EXAMPLE_PAYMENT: IPayment = {
-  id: 0,
-  name: 'Payment 0',
-  amount: 44,
-  code: '00',
-  gridLength: 64
-};
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +50,7 @@ export class PaymentsService implements OnDestroy {
       id,
       ...nameAndAmount,
       code: this.code,
+      grid: this.grid,
       gridLength: this.gridService.lengthOfGrid(this.grid)
     };
 
