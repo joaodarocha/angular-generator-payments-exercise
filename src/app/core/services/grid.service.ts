@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { NumbersService } from './numbers.service';
 import { map } from 'rxjs/operators';
 
@@ -14,11 +14,10 @@ export class GridService {
   private grid: Grid;
   private numberOfPriorityCharacters = 20;
 
-  constructor(
-  ) {
+  constructor() {
   }
 
-  private _grid$: BehaviorSubject<Grid> = this.initGridStream();
+  private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getStartingGrid());
 
   get grid$(): Observable<Grid> {
     return this._grid$.asObservable();
@@ -32,7 +31,7 @@ export class GridService {
     this._grid$.next(this.grid);
   }
 
-  count(character: string): number {
+  countCharacterInGrid(character: string): number {
     let count = 0;
     this.grid.forEach(row => {
       count += this.countOcurrencesInArray(row, character);
@@ -40,21 +39,20 @@ export class GridService {
     return count;
   }
 
-  countOcurrencesInArray(array: string[], character: string) {
+  initGridStream(inputChar?: string): void {
+    timer(0, 2000).pipe(map(_ => this.generate(inputChar))).subscribe();
+  }
+
+  private countOcurrencesInArray(array: string[], character: string) {
     return array.reduce((accum, char) => {
         return ( char === character ? accum + 1 : accum );
       }
       , 0);
   }
 
-  private initGridStream(): BehaviorSubject<Grid> {
-    interval(2000).pipe(map(tick => this.generate())).subscribe();
-    return new BehaviorSubject<Grid>(this.getStartingGrid());
-  }
-
   private getStartingGrid(): Grid {
     let row: string[];
-    row = Array(10).fill('a');
+    row = Array(10).fill(' ');
     this.grid = Array(10).fill(row);
     return this.grid;
   }

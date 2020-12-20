@@ -33,7 +33,7 @@ export class GeneratorPageComponent implements OnInit, OnDestroy {
   }
 
   onGeneratorClick() {
-    this.generatorService.generate(this.inputCharacter);
+    this.generatorService.initGridStream(this.inputCharacter);
   }
 
   ngOnDestroy() {

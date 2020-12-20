@@ -5,7 +5,7 @@ import { CodeService } from './services/code.service';
 import { GridService } from './services/grid.service';
 import { NumbersService } from './services/numbers.service';
 import { PaymentsService } from './services/payments.service';
-import { TimeService } from './services/time.service';
+import { ClockService } from './services/clock.service';
 
 
 
@@ -20,7 +20,7 @@ import { TimeService } from './services/time.service';
     GridService,
     NumbersService,
     PaymentsService,
-    TimeService
+    ClockService
   ]
 })
 export class CoreModule {

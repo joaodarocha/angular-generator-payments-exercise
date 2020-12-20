@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { interval, Observable, timer } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TimeService {
+export class ClockService {
   private _time$: Observable<string> = interval(1000) // Emits every second
     .pipe(
-      map(tick => this.getTimeAsString(),
+      map(tick => this.getClock(),
         shareReplay(1)
       ));
 
@@ -16,16 +16,17 @@ export class TimeService {
     return this._time$;
   }
 
-  getSecondsFromDateString(date: string): number[] {
-    const secondsString = date.slice(-3, -1);
-    const firstDigit: number = Number(secondsString.substr(0, 1));
-    const secondDigit: number = Number(secondsString.substr(1, 1));
+  getSeconds(): number[] {
+    const now = this.getNowDate();
+    const seconds = now.getSeconds().toString().padStart(2, '0'); // Always have 2 digits
+    const firstDigit: number = Number(seconds.substr(0, 1));
+    const secondDigit: number = Number(seconds.substr(1, 1));
 
     return [firstDigit, secondDigit];
   }
 
-  private getTimeAsString(): string {
-    const now: Date = new Date();
+  private getClock(): string {
+    const now = this.getNowDate();
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds().toString().padStart(2, '0');
@@ -33,5 +34,8 @@ export class TimeService {
     return `${hours}h${minutes}m${seconds}s`;
   }
 
+  private getNowDate(): Date {
+    return new Date();
+  }
 
 }
