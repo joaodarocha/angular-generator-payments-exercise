@@ -17,18 +17,21 @@ export class GridService {
   constructor() {
   }
 
+  private _character: string;
+
+  set character(value: string) {
+    this._character = value;
+  }
+
   private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getStartingGrid());
 
   get grid$(): BehaviorSubject<Grid> {
     return this._grid$;
   }
 
-  generate(inputChar?: string): void {
-    this.grid = this.grid.map(row => {
-      return row.map(character => this.generateCharacter(inputChar));
-    });
-    this.numberOfPriorityCharacters = 20;
-    this._grid$.next(this.grid);
+  initGridStream(inputChar?: string): void {
+    this._character = inputChar;
+    timer(0, 2000).pipe(map(_ => this.generate())).subscribe();
   }
 
   countCharacterInGrid(character: string): number {
@@ -39,17 +42,21 @@ export class GridService {
     return count;
   }
 
-  initGridStream(inputChar?: string): void {
-    timer(0, 2000).pipe(map(_ => this.generate(inputChar))).subscribe();
-  }
-
   lengthOfGrid(grid: Grid): number {
     let length = 0;
-    this.grid.forEach(row => {
+    grid.forEach(row => {
       row.forEach(column => length++);
     });
 
     return length;
+  }
+
+  private generate(): void {
+    this.grid = this.grid.map(row => {
+      return row.map(column => this.generateCharacter(this._character));
+    });
+    this.numberOfPriorityCharacters = 20;
+    this._grid$.next(this.grid);
   }
 
   private countOcurrencesInArray(array: string[], character: string) {
@@ -61,7 +68,7 @@ export class GridService {
 
   private getStartingGrid(): Grid {
     let row: string[];
-    row = Array(10).fill(' ');
+    row = Array(10).fill('');
     this.grid = Array(10).fill(row);
     return this.grid;
   }
