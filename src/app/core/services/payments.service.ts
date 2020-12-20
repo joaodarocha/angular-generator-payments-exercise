@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Grid, GridService } from './grid.service';
+import { GridService } from './grid.service';
 import { CodeService } from './code.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -8,7 +8,7 @@ export interface IPayment {
   name: string;
   amount: number;
   code: string;
-  grid: Grid;
+  grid: string[];
   gridLength: number;
 }
 
@@ -17,7 +17,7 @@ export interface IPayment {
 })
 export class PaymentsService implements OnDestroy {
   code: string;
-  grid: Grid;
+  grid: string[];
   private subscriptions: Subscription = new Subscription();
   private payments: IPayment[] = [];
 
@@ -51,7 +51,7 @@ export class PaymentsService implements OnDestroy {
       ...nameAndAmount,
       code: this.code,
       grid: this.grid,
-      gridLength: this.gridService.lengthOfGrid(this.grid)
+      gridLength: this.grid.length
     };
 
     this.payments.push(newPayment);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClockService } from './clock.service';
-import { Grid, GridService } from './grid.service';
+import { GridService } from './grid.service';
 import { map, shareReplay, skip } from 'rxjs/operators';
 
 @Injectable({
@@ -39,17 +39,17 @@ export class CodeService {
     );
   }
 
-  private generateCode(seconds: number[], grid: Grid): string {
+  private generateCode(seconds: number[], grid: string[]): string {
     const characters: string[] = this.getCharactersFromGrid(seconds, grid);
 
     return this.generateCodeFromCharacters(characters);
   }
 
-  private getCharactersFromGrid(seconds: number[], grid: Grid): string[] {
+  private getCharactersFromGrid(seconds: number[], grid: string[]): string[] {
     const leftSecond = seconds[0];
     const rightSecond = seconds[1];
-    const firstChar = grid[leftSecond][rightSecond];
-    const secondChar = grid[rightSecond][leftSecond];
+    const firstChar = grid[(leftSecond * 10 + rightSecond)];
+    const secondChar = grid[(rightSecond * 10 + leftSecond)];
 
     return [firstChar, secondChar];
   }

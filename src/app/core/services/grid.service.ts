@@ -3,15 +3,13 @@ import { BehaviorSubject, timer } from 'rxjs';
 import { NumbersService } from './numbers.service';
 import { map } from 'rxjs/operators';
 
-export type Grid = string[][];
-
 @Injectable({
   providedIn: 'root'
 })
 export class GridService {
   private readonly LETTER_A_ASCII_CODE: number = 97;
   private readonly LETTER_Z_ASCII_CODE: number = 122;
-  private grid: Grid;
+  private grid: string[];
   private numberOfPriorityCharacters = 20;
 
   constructor() {
@@ -23,9 +21,9 @@ export class GridService {
     this._character = value;
   }
 
-  private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getEmptyGrid());
+  private _grid$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(this.getEmptyGrid());
 
-  get grid$(): BehaviorSubject<Grid> {
+  get grid$(): BehaviorSubject<string[]> {
     return this._grid$;
   }
 
@@ -35,41 +33,24 @@ export class GridService {
   }
 
   countCharacterInGrid(character: string): number {
-    let count = 0;
-    this.grid.forEach(row => {
-      count += this.countOcurrencesInArray(row, character);
-    });
-    return count;
-  }
-
-  lengthOfGrid(grid: Grid): number {
-    let length = 0;
-    grid.forEach(row => {
-      row.forEach(column => length++);
-    });
-
-    return length;
+    return this.countOcurrencesInArray(character);
   }
 
   private generate(): void {
-    this.grid = this.grid.map(row => {
-      return row.map(column => this.generateCharacter(this._character));
-    });
+    this.grid = this.grid.map(cell => this.generateCharacter(this._character));
     this.numberOfPriorityCharacters = 20;
     this._grid$.next(this.grid);
   }
 
-  private countOcurrencesInArray(array: string[], character: string) {
-    return array.reduce((accum, char) => {
+  private countOcurrencesInArray(character: string) {
+    return this.grid.reduce((accum, char) => {
         return ( char === character ? accum + 1 : accum );
       }
       , 0);
   }
 
-  private getEmptyGrid(): Grid {
-    let row: string[];
-    row = Array(10).fill('');
-    this.grid = Array(10).fill(row);
+  private getEmptyGrid(): string[] {
+    this.grid = Array(100).fill('');
     return this.grid;
   }
 

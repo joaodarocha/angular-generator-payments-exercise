@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Grid, GridService } from '../../../../core/services/grid.service';
+import { GridService } from '../../../../core/services/grid.service';
 import { Subscription } from 'rxjs';
 
 
@@ -10,9 +10,8 @@ import { Subscription } from 'rxjs';
 })
 export class GeneratorPageComponent implements OnInit, OnDestroy {
 
-  grid: Grid;
+  grid: string[];
   private inputCharacter: string;
-
   private subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -34,7 +33,7 @@ export class GeneratorPageComponent implements OnInit, OnDestroy {
   }
 
   wasGridGenerated(): boolean {
-    return !!this.grid[0][0];
+    return !!this.grid[0];
   }
 
   onGeneratorClick() {
