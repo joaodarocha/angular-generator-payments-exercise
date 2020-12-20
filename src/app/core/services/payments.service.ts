@@ -26,7 +26,7 @@ export class PaymentsService implements OnDestroy {
   code: string;
   grid: Grid;
   private subscriptions: Subscription = new Subscription();
-  private payments: IPayment[] = [EXAMPLE_PAYMENT];
+  private payments: IPayment[] = [];
 
   constructor(
     private gridService: GridService,

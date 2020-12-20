@@ -2,6 +2,7 @@
   <app-generator-header
     (generatorClicked)="onGeneratorClick()"
     (newCharacter)="onNewCharacter($event)"
+    [buttonDisabled]="wasGridGenerated()"
     class="header"
   ></app-generator-header>
 

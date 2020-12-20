@@ -30,6 +30,11 @@ export class GeneratorPageComponent implements OnInit, OnDestroy {
 
   onNewCharacter(character: string) {
     this.inputCharacter = character;
+    this.generatorService.character = character;
+  }
+
+  wasGridGenerated(): boolean {
+    return !!this.grid[0][0];
   }
 
   onGeneratorClick() {

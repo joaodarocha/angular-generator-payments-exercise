@@ -19,6 +19,7 @@
 
 
   <button (click)="generatorClicked.emit()" class="generate-button" color="primary" fxFlex
+          [disabled]="buttonDisabled"
           mat-raised-button>Generate 2D Grid
   </button>
 </div>

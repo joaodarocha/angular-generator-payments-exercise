@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ClockService } from '../../../../core/services/clock.service';
 import { Observable } from 'rxjs';
@@ -16,6 +16,7 @@ export class GeneratorHeaderComponent implements OnInit {
   time$: Observable<string> = new Observable<string>();
 
   characters = new FormControl({ value: '', disabled: false }, Validators.pattern('[a-z]'));
+  @Input() buttonDisabled = true;
 
   constructor(
     private timeService: ClockService
