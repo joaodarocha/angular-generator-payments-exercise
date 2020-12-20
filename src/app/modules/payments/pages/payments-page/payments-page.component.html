@@ -1,2 +1,56 @@
-<app-live-code></app-live-code>
-<p>payments-page works!</p>
+<app-live-code [isPaymentsPage]="true"></app-live-code>
+
+<form (ngSubmit)="addPayment(paymentsForm.value)" [formGroup]="paymentsForm" class="form-payment"
+      fxLayout="row"
+      fxLayoutAlign="start space-between">
+
+  <mat-form-field appearance="outline" class="form-name" color="primary">
+    <mat-label>
+      Name
+    </mat-label>
+    <input formControlName="name" id="name" matInput type="text">
+    <mat-error *ngIf="paymentsForm.get('name').invalid">You must provide a name</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-amount" color="primary">
+    <mat-label>
+      Amount
+    </mat-label>
+    <input formControlName="amount" id="amount" matInput type="number">
+    <mat-error *ngIf="paymentsForm.get('amount').invalid">You must add an amount</mat-error>
+  </mat-form-field>
+
+  <button class="button" color=primary mat-raised-button type="submit">+ Add</button>
+
+</form>
+
+<table [dataSource]="dataSource" class="payments-table" mat-table>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th *matHeaderCellDef mat-header-cell> Name</th>
+    <td *matCellDef="let payment" mat-cell> {{payment.name}} </td>
+  </ng-container>
+
+  <!-- Amount Column -->
+  <ng-container matColumnDef="amount">
+    <th *matHeaderCellDef mat-header-cell> Amount</th>
+    <td *matCellDef="let payment" mat-cell> {{payment.amount}} </td>
+  </ng-container>
+
+
+  <!-- Code Column -->
+  <ng-container matColumnDef="code">
+    <th *matHeaderCellDef mat-header-cell> Code</th>
+    <td *matCellDef="let payment" mat-cell> {{payment.code}} </td>
+  </ng-container>
+
+  <!-- Grid Column -->
+  <ng-container matColumnDef="grid">
+    <th *matHeaderCellDef mat-header-cell> Grid</th>
+    <td *matCellDef="let payment" mat-cell> {{payment.gridLength}} </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CodeService } from '../../../core/services/code.service';
 import { tap } from 'rxjs/operators';
@@ -9,16 +9,17 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./live-code.component.scss']
 })
 export class LiveCodeComponent implements OnInit {
+  @Input() isPaymentsPage = false;
   code$: Observable<string>;
 
   constructor(
-    private codeService: CodeService
+    private codeService: CodeService,
   ) {
   }
 
   ngOnInit(): void {
     this.code$ = this.codeService.code$.pipe(tap(code => {
-      console.log('New code: ', code);
+      // console.log('New code: ', code);
     }));
   }
 

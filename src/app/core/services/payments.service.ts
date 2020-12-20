@@ -1,9 +1,74 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Grid, GridService } from './grid.service';
+import { CodeService } from './code.service';
+import { BehaviorSubject, Subscription } from 'rxjs';
+
+export interface IPayment {
+  id: number;
+  name: string;
+  amount: number;
+  code: string;
+  gridLength: number;
+}
+
+export const EXAMPLE_PAYMENT: IPayment = {
+  id: 0,
+  name: 'Payment 0',
+  amount: 44,
+  code: '00',
+  gridLength: 64
+};
 
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentsService {
+export class PaymentsService implements OnDestroy {
+  code: string;
+  grid: Grid;
+  private subscriptions: Subscription = new Subscription();
+  private payments: IPayment[] = [EXAMPLE_PAYMENT];
 
-  constructor() { }
+  constructor(
+    private gridService: GridService,
+    private codeService: CodeService
+  ) {
+    this.init();
+  }
+
+  private _payments$: BehaviorSubject<IPayment[]> = new BehaviorSubject<IPayment[]>(this.payments);
+
+  get payments$(): BehaviorSubject<IPayment[]> {
+    return this._payments$;
+  }
+
+  init(): void {
+    this.subscriptions.add(
+      this.gridService.grid$.subscribe(grid => this.grid = grid)
+    );
+    this.subscriptions.add(
+      this.codeService.code$.subscribe(code => this.code = code)
+    );
+  }
+
+  createPayment(nameAndAmount: IPayment): IPayment {
+    const id: number = this.payments.length + 1;
+
+    const newPayment = {
+      id,
+      ...nameAndAmount,
+      code: this.code,
+      gridLength: this.gridService.lengthOfGrid(this.grid)
+    };
+
+    this.payments.push(newPayment);
+    this._payments$.next(this.payments);
+    console.log(this.payments);
+
+    return newPayment;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }
+

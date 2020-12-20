@@ -30,7 +30,7 @@ export class CodeService {
       skip(1), // Only generates a code after grid is initialized
       map(grid => {
         // Debugging
-        console.log('New Grid' + this.countGrid++);
+        // console.log('New Grid' + this.countGrid++);
         const seconds: number[] = this.clockService.getSeconds();
 
         return this.generateCode(seconds, grid);

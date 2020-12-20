@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, timer } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
 import { NumbersService } from './numbers.service';
 import { map } from 'rxjs/operators';
 
@@ -41,6 +41,15 @@ export class GridService {
 
   initGridStream(inputChar?: string): void {
     timer(0, 2000).pipe(map(_ => this.generate(inputChar))).subscribe();
+  }
+
+  lengthOfGrid(grid: Grid): number {
+    let length = 0;
+    this.grid.forEach(row => {
+      row.forEach(column => length++);
+    });
+
+    return length;
   }
 
   private countOcurrencesInArray(array: string[], character: string) {

@@ -15,18 +15,19 @@ export class GeneratorHeaderComponent implements OnInit {
 
   time$: Observable<string> = new Observable<string>();
 
-  characters = new FormControl({value: '', disabled: false} , Validators.pattern('[a-z]'));
+  characters = new FormControl({ value: '', disabled: false }, Validators.pattern('[a-z]'));
 
   constructor(
     private timeService: ClockService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.time$ = this.timeService.time$;
   }
 
   onInputChange(value: string) {
-    if (this.characters.errors) {
+    if (this.characters.invalid) {
       return;
     }
     this.newCharacter.emit(value);
@@ -35,7 +36,7 @@ export class GeneratorHeaderComponent implements OnInit {
 
   private disableInputFor4Seconds() {
     this.characters.disable();
-    setTimeout( () => {
+    setTimeout(() => {
       this.characters.enable();
     }, 4000);
   }
