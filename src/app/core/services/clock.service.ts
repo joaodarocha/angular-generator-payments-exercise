@@ -8,9 +8,9 @@ import { map, shareReplay } from 'rxjs/operators';
 export class ClockService {
   private _time$: Observable<string> = interval(1000) // Emits every second
     .pipe(
-      map(tick => this.getClock(),
-        shareReplay(1)
-      ));
+      map(tick => this.getClock()),
+      shareReplay(1)
+    );
 
   get time$(): Observable<string> {
     return this._time$;

@@ -19,7 +19,7 @@ export class LiveCodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.code$ = this.codeService.code$.pipe(tap(code => {
-      // console.log('New code: ', code);
+      console.log('New code: ', code);
     }));
   }
 
