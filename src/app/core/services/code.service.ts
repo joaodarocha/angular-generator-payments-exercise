@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClockService } from './clock.service';
 import { Grid, GridService } from './grid.service';
-import { map, skip } from 'rxjs/operators';
+import { map, shareReplay, skip } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +24,9 @@ export class CodeService {
   }
 
   initCodeStream(): Observable<string> {
-    const gridObservable = this.gridService.grid$;
+    const grid$ = this.gridService.grid$;
 
-    return gridObservable.pipe(
+    return grid$.pipe(
       skip(1), // Only generates a code after grid is initialized
       map(grid => {
         // Debugging
@@ -34,7 +34,8 @@ export class CodeService {
         const seconds: number[] = this.clockService.getSeconds();
 
         return this.generateCode(seconds, grid);
-      })
+      }),
+      shareReplay(1) // Replay the last value to new subscribers
     );
   }
 

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CodeService } from '../../../core/services/code.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-live-code',
   templateUrl: './live-code.component.html',
   styleUrls: ['./live-code.component.scss']
 })
-export class LiveCodeComponent implements OnInit{
+export class LiveCodeComponent implements OnInit {
   code$: Observable<string>;
 
   constructor(
@@ -16,7 +17,9 @@ export class LiveCodeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.code$ = this.codeService.code$;
+    this.code$ = this.codeService.code$.pipe(tap(code => {
+      console.log('New code: ', code);
+    }));
   }
 
 }

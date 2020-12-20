@@ -19,8 +19,8 @@ export class GridService {
 
   private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getStartingGrid());
 
-  get grid$(): Observable<Grid> {
-    return this._grid$.asObservable();
+  get grid$(): BehaviorSubject<Grid> {
+    return this._grid$;
   }
 
   generate(inputChar?: string): void {
