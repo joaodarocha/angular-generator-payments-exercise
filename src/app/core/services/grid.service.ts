@@ -10,7 +10,6 @@ export class GridService {
   private readonly LETTER_A_ASCII_CODE: number = 97;
   private readonly LETTER_Z_ASCII_CODE: number = 122;
   private grid: string[];
-  private numberOfPriorityCharacters = 20;
 
   constructor() {
   }
@@ -33,16 +32,25 @@ export class GridService {
   }
 
   countCharacterInGrid(character: string): number {
-    return this.countOcurrencesInArray(character);
+    return this.countCharInGrid(character);
   }
 
   private generate(): void {
-    this.grid = this.grid.map(cell => this.generateCharacter(this._character));
-    this.numberOfPriorityCharacters = 20;
+    this.grid = this.getEmptyGrid();
+    const positions = this.get20RandomNumbers();
+
+    for (const position of positions) {
+      this.grid[position] = this._character;
+    }
+
+    this.grid = this.grid.map(element => {
+      return (!element) ? this.getRandomCharacter() : element;
+    });
+
     this._grid$.next(this.grid);
   }
 
-  private countOcurrencesInArray(character: string) {
+  private countCharInGrid(character: string) {
     return this.grid.reduce((accum, char) => {
         return ( char === character ? accum + 1 : accum );
       }
@@ -61,14 +69,20 @@ export class GridService {
     return character;
   }
 
-  private generateCharacter(priorityChar?: string): string {
-    if (priorityChar) {
-      this.numberOfPriorityCharacters--;
-      if (this.numberOfPriorityCharacters > -1) {
-        return priorityChar;
+  private get20RandomNumbers(): number[] {
+    const randomNumbers: number[] = [];
+
+    for (let i = 0; i < 20; i++) {
+      const num = ( NumbersService.getRandomInt(0, 99) );
+
+      if (randomNumbers.includes(num)) {
+        console.log('Duplicate');
+        i--;
+      }
+      else {
+        randomNumbers.push(num);
       }
     }
-    return this.getRandomCharacter();
+    return randomNumbers;
   }
-
 }
