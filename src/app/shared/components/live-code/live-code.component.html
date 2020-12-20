@@ -1,0 +1,9 @@
+<div class="live-code" fxLayout="column" fxLayoutAlign="center center">
+  <div class="first-row" fxFlex>
+    <mat-icon class="circle">circle</mat-icon>
+    LIVE
+  </div>
+  <div class="second-row">YOUR CODE<span *ngIf="isPaymentsPage"> NOW</span>
+    <span class="code">: {{ code$ | async }}</span>
+  </div>
+</div>

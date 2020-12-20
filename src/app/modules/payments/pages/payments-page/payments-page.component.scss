@@ -1,0 +1,32 @@
+$margin-left: 5%;
+
+.form-payment {
+  margin-left: $margin-left;
+
+  .form-name, .form-amount {
+    margin: 5px;
+    padding-top: 16px;
+  }
+
+  button {
+    align-self: center;
+  }
+
+}
+
+table.payments-table {
+  width: 100%;
+  padding: $margin-left;;
+
+  .mat-column-name {
+  }
+
+  .mat-column-amount,
+  .mat-column-code,
+  .mat-column-grid {
+    border-left: 1px solid #e0e0e0;
+    text-align: center;
+    width: 10%;
+  }
+
+}

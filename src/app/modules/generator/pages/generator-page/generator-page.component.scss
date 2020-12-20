@@ -1,0 +1,23 @@
+@import '~@angular/material/theming';
+
+.generator-page {
+  padding: 5% 10%;
+
+  .header {
+    margin-bottom: 5%;
+  }
+
+  .grid {
+    margin-bottom: 5%;
+
+    .mat-grid-tile {
+      border: solid 1px mat-color($mat-indigo, 200);
+      color: gray;
+    }
+
+  }
+
+  .live-code {
+    margin-bottom: 10%;
+  }
+}

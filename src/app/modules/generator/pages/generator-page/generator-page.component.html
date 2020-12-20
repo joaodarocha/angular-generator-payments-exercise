@@ -1,0 +1,22 @@
+<div class="generator-page" fxLayout="column" fxLayoutAlign="center space-around">
+  <app-generator-header
+    (generatorClicked)="onGeneratorClick()"
+    (newCharacter)="onNewCharacter($event)"
+    [buttonDisabled]="wasGridGenerated()"
+    class="header"
+  ></app-generator-header>
+
+
+  <div class="grid" fxFlex>
+    <mat-grid-list cols="10" rowHeight="40px">
+        <mat-grid-tile *ngFor="let character of grid">
+          {{ character }}
+        </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+
+  <app-live-code class="live-code" fxFlex></app-live-code>
+
+
+</div>

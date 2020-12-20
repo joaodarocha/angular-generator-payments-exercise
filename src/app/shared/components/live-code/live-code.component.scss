@@ -1,0 +1,28 @@
+.live-code {
+  margin-top: 20px;
+
+  .first-row {
+    color: #656565;
+    font-weight: 500;
+
+    .circle {
+      color: red;
+      font-size: 12px;
+      height: 12px !important;
+      width: 12px !important;
+    }
+  }
+
+  .second-row {
+    margin-top: 5px;
+    border-radius: 3px;
+    border: solid 1px #bdbdbd;
+    padding: 10px 40px;
+    color: #656565;
+
+    .code {
+      color: #252525;
+      font-weight: 600;
+    }
+  }
+}

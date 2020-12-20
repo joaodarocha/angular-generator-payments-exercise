@@ -1,0 +1,25 @@
+<div class="header" fxLayout="row" fxLayoutAlign="center center">
+  <div class="character-input" fxFlex>
+    <mat-form-field appearance="outline">
+      <mat-label>Insert one character</mat-label>
+      <input #inputChar
+             (change)="onInputChange(inputChar.value)"
+             (keyup.enter)="onInputChange(inputChar.value)"
+             [formControl]="characters"
+             matInput>
+      <mat-error *ngIf="characters.invalid">Must be only 1 character from a-z</mat-error>
+      <mat-hint *ngIf="characters.disabled">Disabled</mat-hint>
+    </mat-form-field>
+  </div>
+
+
+  <div class="clock" fxFlex>
+    {{ time$ | async}}
+  </div>
+
+
+  <button (click)="generatorClicked.emit()" class="generate-button" color="primary" fxFlex
+          [disabled]="buttonDisabled"
+          mat-raised-button>Generate 2D Grid
+  </button>
+</div>
