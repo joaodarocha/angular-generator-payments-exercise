@@ -23,7 +23,7 @@ export class GridService {
     this._character = value;
   }
 
-  private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getStartingGrid());
+  private _grid$: BehaviorSubject<Grid> = new BehaviorSubject<Grid>(this.getEmptyGrid());
 
   get grid$(): BehaviorSubject<Grid> {
     return this._grid$;
@@ -66,7 +66,7 @@ export class GridService {
       , 0);
   }
 
-  private getStartingGrid(): Grid {
+  private getEmptyGrid(): Grid {
     let row: string[];
     row = Array(10).fill('');
     this.grid = Array(10).fill(row);
